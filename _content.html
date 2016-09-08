@@ -1,0 +1,87 @@
+{# Override the `container` block to disable default layout. #}
+{% block container %}
+{% block content %}
+	<div class='graphic-wrapper'>
+		{% include "_win-probability.html" %}
+	</div>
+{% endblock content %}
+{% endblock container %}
+
+{% block library_scripts %}
+{# Uncomment this if you are using libraries such as jQuery #}
+
+<script src="//{{ ROOT_URL }}/js/vendor.min.js"></script>
+	<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>-->    
+ 	<!-- <script src="//{{ ROOT_URL}}/js/jquery.mobile.touch.js"></script> -->
+    <!-- <script src="js/svg4everybody.min.js"></script> -->
+<!--     <script>
+		svg4everybody();
+    </script> -->
+{% endblock %}
+
+{% block scripts %}
+{# Uncomment this if you are using custom JavaScript #}
+ <script type="text/template" id="tpl-tooltip">
+        <dl class="score">
+            <dt><%=score.leader.team%></dt>
+            <dd><%=score.leaderScore%></dd>
+            <dt><%=score.losing.team%></dt>
+            <dd><%=score.losingScore%></dd>
+        </dl>
+        <p class="time-remaining"><%=gameClock%> remaining in <% if (quarter != 'OT') { %><%=quarter%> quarter<% } else { %>overtime<% } %></p>
+        <p class="<%=downclass%>"><%=down%> and <%=distance%>, at the <%=sideOfField%> <%=yardline%></p>
+        <p><%=play%></p>
+        <% if (reversed) { %><p>No play.</p><% } %>
+        <% if (prob) { %>
+            <dl class="prob">
+                <dt><% if (teams.home.team == 'Bears' || teams.away.team == 'Bears') { %>Bears<% } else { %><%= teams.away.team %><% } %> win probability</dt>
+                <dd><%=prob%></dd>
+            </dl>
+        <% } %>
+    </script>
+
+    <script type="text/template" id="tpl-gameclock">
+        <%= gameClock %> remaining, <% if (period < 5) { %><%= period %>Q<% } else { %>OT<% } %>
+    </script>
+
+    <script type="text/template" id="tpl-tinyLogo">
+        <svg viewBox="0 0 250 250" class="nfl-logo">
+            <use xlink:href="http://{{ ROOT_URL }}/img/nfl-logos.svg#<%= abbrv %>"></use>
+        </svg>
+    </script>
+
+<script src="//{{ ROOT_URL }}/js/app.min.js"></script>
+
+<script>
+(function(document) {
+  var CSS = [
+    "//{{ ROOT_URL }}/css/styles.css"
+  ];    
+  CSS.forEach(function(url) {
+    var link = document.createElement('link');
+    link.setAttribute('rel', 'stylesheet');
+    link.setAttribute('href', url);
+    document.head.appendChild(link);
+  });
+
+  window.ROOT_URL = "{{ ROOT_URL }}";
+
+})(document);    
+</script>
+{% endblock scripts %}
+
+
+
+
+{% block opengraph %}
+<meta property="og:url" content="http://apps.chicagotribune.com/sports/football/bears/bears-win-probability" />
+<meta property="og:title" content="{{ title }}" />
+<meta property="og:description" content="Win-probability postgame analysis for Chicago Bears" />
+<meta property="og:image" content="http://apps.chicagotribune.com/sports/football/bears/bears-win-probability/bug.png" />
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@chicagotribune">
+<meta name="twitter:creator" content="@chitribgraphics">
+<meta name="twitter:title" content="{{ title }}">
+<meta name="twitter:description" content="Live win-probability tracker for Bears vs. Packers">
+<meta name="twitter:image:src" content="http://apps.chicagotribune.com/sports/football/bears/bears-win-probability/bug.png">
+{% endblock opengraph %}
