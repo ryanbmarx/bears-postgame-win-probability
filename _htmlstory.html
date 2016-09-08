@@ -1,0 +1,6 @@
+{# Override the `container` block to disable default layout. #}
+{% block container %}
+{% block content %}
+{% include "_content.html" %}
+{% endblock content %}
+{% endblock container %}
