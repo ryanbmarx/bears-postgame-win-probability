@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html{% block html_tag_extras %}{% endblock %}>
+<head>
+    {% block viewport %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock viewport %}
+
+    <title>{% block title %}{{ headline|default(title)|striptags }} -- Chicago Tribune{% endblock title %}</title>
+    <link rel="stylesheet" href="http://www.chicagotribune.com/as/prod/chinews/stylesheets/fonts.1q2w3_232453b090bae07860887d948fe32b10.min.css">
+    <link rel="stylesheet" href="http://www.chicagotribune.com/as/prod/chinews/stylesheets/main.1q2w3_f4e4b588a7f2fc866910901ea01e955a.min.css">
+    <link rel="stylesheet" href="http://www.chicagotribune.com/as/prod/chinews/stylesheets/modules.1q2w3_1c585ee285f56232ab6bde9eed149f70.min.css">
+</head>
+<body>
+    <div class="trb_article_wrapper" data-role="transporter_article socialshare_context">
+        <div itemscope="" itemtype="http://schema.org/Article" data-role="transporter_article">
+            <article class="trb_article">     
+                <header class="trb_article_articleHeader">  
+                    <a href="/" class="trb_homeLink" data-content-svgtype="articlesLogo" title="Chicago Tribune"></a>                <div class="trb_article_breadcrumbs">
+                        <a itemprop="articleSection" href="/sports/#navtype=breadcrumb" class="trb_article_breadcrumbs_a">Sports </a>
+                        <a itemprop="articleSection" href="/sports/baseball/#navtype=breadcrumb" class="trb_article_breadcrumbs_a">Baseball </a>
+                        <a itemprop="articleSection" href="/sports/baseball/cubs/#navtype=breadcrumb" class="trb_article_breadcrumbs_a">Chicago Cubs </a> 
+                    </div>
+
+                    <div class="trb_socialize"><span class="trb_socialize_item" data-role="socialshare_share" data-socialshare-type="facebook"></span><span class="trb_socialize_item" data-role="socialshare_share" data-socialshare-type="twitter"></span><span class="trb_socialize_item" data-role="socialshare_email" data-socialshare-type="email"></span></div>
+
+                    <div class="trb_article_articleHeader_head">
+                        <div class="trb_article_title">
+                            <h1 class="trb_article_title_text" itemprop="name">{{ headline|default(title) }}</h1>
+                        </div>               
+                        <div class="trb_article_leadart"></div>
+                        <div class="trb_bylines"><span class="trb_bylines_nm_pm"><span class="trb_bylines_nm_au"><span class="trb_bylines_nm_au_by">By </span><span itemprop="author">{{ byline|default("Tribune Graphics") }}</span></span></span></div>
+                    </div>
+                    <div class="trb_article_dateline"><time itemprop="datePublished" class="trb_article_dateline_time" data-datetime-month="October" data-datetime-day="6" data-datetime-year="2015" data-datetime-clock="12:42 PM" datetime="2015-10-06T12:42:00CDT"></time>          </div> 
+                </header>  
+
+                <section class="trb_mainContent">    
+                    <div itemprop="article">       
+                         <div class="trb_article_page" data-role="pagination_page" data-content-page="">      
+                            <div class="htmlStoryFullWidth"> 
+                                {% include "_content.html" %}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </article>
+        </div>
+    </div>
+</body>
+</html>
