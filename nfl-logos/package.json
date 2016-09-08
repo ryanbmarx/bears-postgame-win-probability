@@ -1,0 +1,28 @@
+{
+  "name": "nfl-logos",
+  "description": "NFL team logos",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://tribune.unfuddle.com/git/tribune_nfl-logos/"
+  },
+  "keywords": [
+    "NFL",
+    "logo",
+    "tribune",
+    "football",
+    "SVG",
+    "sports"
+  ],
+  "author": {
+    "name": "Chicago Tribune News Applications"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-aws-s3": "^0.14.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-compress": "^0.13.0"
+  }
+}

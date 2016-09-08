@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SVG Sprites</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="//media.apps.chicagotribune.com/bootstrap/v3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="//media.apps.chicagotribune.com/bootstrap/v3.1.1/css/chicago-bootstrap.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .nfl-logo {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+        <h1>SVG Sprites</h1>
+
+        <svg viewBox="0 0 250 200" class="nfl-logo">
+            <use xlink:href="../nfl-logos.svg#CHI"></use>
+        </svg>
+
+        <h2>HTML</h2>
+        <pre><code>
+        &lt;svg viewBox=&quot;0 0 250 200&quot; class=&quot;nfl-logo&quot;&gt;
+            &lt;use xlink:href=&quot;http://media.apps.chicagotribune.com/nfl-logos/nfl-logos.svg#CHI&quot;&gt;&lt;/use&gt;
+        &lt;/svg&gt;
+
+        ...
+
+        &lt;!-- Polyfill for external SVG support in IE --&gt;
+        &lt;script src=&quot;http://media.apps.chicagotribune.com/nfl-logos/js/svg4everybody.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;
+        svg4everybody();
+        &lt;/script&gt;
+        </code></pre>
+
+        <h2>CSS</h2>
+        <pre></code>
+        .nfl-logo {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+        }
+        </pre></code>
+
+    </div>    
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="//media.apps.chicagotribune.com/bootstrap/v3.1.1/js/bootstrap.min.js"></script>
+    <script src="../js/svg4everybody.min.js"></script>
+    <script>
+    svg4everybody();
+    </script>
+  </body>
+</html>
