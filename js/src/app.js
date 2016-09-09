@@ -67,7 +67,7 @@ function buildTopPlays(data, meta){
               <p class='top-play__down-distance'>${getDownAndDistance(value, visitingTeam, homeTeam)}</p>
             </div>
             <p class='top-play__description'>${value['description']}</p>
-            <p class='top-play__score'>${visitingTeam} ${value['score']['home']}, ${homeTeam} ${value['score']['away']}</p>
+            <p class='top-play__score'>Resulting score: ${visitingTeam} ${value['score']['home']}, ${homeTeam} ${value['score']['away']}</p>
           </div>
         </div>`;
     });
@@ -216,49 +216,6 @@ function drawChart(data, container, score, meta, gamechangers, dimensions) {
     .datum(data)
     .attr('class', 'line')
     .attr('d', line);
-
-  /*
-  var gameChanger = chart.selectAll('.gamechanger')
-      .data(gamechangers).enter()
-    .append('g')
-      .attr('class', 'gamechanger')
-      .attr('transform', function(d) {
-        if (WIN_PROB_CHANGES[d.play].abs_diff == null) {
-          var value = WIN_PROB_CHANGES[d.play].before;
-        } else {
-          var value = WIN_PROB_CHANGES[d.play].after;
-        }
-        return "translate(" + xScale(d.play) + "," + yScale(value) + ")";
-      });
-
-  gameChanger.append('circle')
-    .attr('r', 6.5)
-    .on('mouseover', function(d) {
-      var tpl = _.template($('#tpl-winprob-play-info').html());
-      $('#selected-play').html(tpl({play: d}));
-    });
-
-  gameChanger.append('text')
-    .text(function(d,i) {
-      var text = '';
-      if (d.points.number == 3) {
-        return 'FG';
-      } else if (d.points.number == 6) {
-        return 'TD';
-      }
-      return i + 1;
-    })
-    .attr('x', function(d,i) {
-      if (d.points.number == 3) {
-        return -5.5;
-      } else if (d.points.number == 6) {
-        return -5.5;
-      }
-
-      return -2.4;
-    })
-    .attr('y', 2.8);
-  */
 
   chart.selectAll('circle.play')
     .data(data).enter()
@@ -632,19 +589,6 @@ function updateData(JSON, gameId) {
     $('.q' + results.plays[results.plays.length - 1].quarter).show();
     $('#q' + results.plays[results.plays.length - 1].quarter + '-select').addClass('active');
 
-    //var gamechangers = _.sortBy(
-    //  _.values(WIN_PROB_CHANGES).slice(0, -1), function(wpc) { return wpc.abs_diff; }).reverse().slice(0, 10);
-    // gamechanger_tmpl = _.template($('#tpl-gamechanger').html());
-
-    // _.each(gamechangers, function(changer, idx) {
-    //   $('#gamechangers').append(gamechanger_tmpl({
-    //     play: changer.play,
-    //     before: changer.before,
-    //     after: changer.after,
-    //     idx: idx + 1
-    //   }));
-    // });
-
     var clock_tmpl = _.template($('#tpl-gameclock').html()),
         length_offset = 2;
     if (ISFINAL) {
@@ -711,12 +655,4 @@ $(document).ready(function() {
     var lastPos = window.location.href.lastIndexOf('/');
     window.location.href = window.location.href.substr(0, lastPos) + '/?game=' + $('#game-select').val();
   });
-
-  // $('.quarter-select').tap(function() {
-  //   $('.play').hide();
-  //   $('.quarter-select').removeClass('active');
-  //   $('.q' + $(this).data('quarter')).show();
-  //   $('#q' + $(this).data('quarter') + '-select').addClass('active');
-  // });
-
 });
