@@ -1,7 +1,7 @@
 var cmd = require('node-cmd');
 var colors = require('colors');
 
-
+// This is an array of the season
 var games = [
 	51804,
 	51832,
@@ -18,8 +18,7 @@ var games = [
 	51997,
 	52011,
 	52028,
-	52045,
-	51801
+	52045
 ];
 
 for (var i = 0; i < games.length; i++){
