@@ -4,17 +4,17 @@ $bears_orange: #C83803;
 $top_play_number_width:25px;
 $prob_change_width:100px;
 
-@mixin sans-serif-text($size, $weight:normal){
+@mixin sans-serif-text($size, $lineHeight:1.3em, $weight:normal){
 	font-family:"Arial", sans-serif;
 	font-size:$size;
-	line-height:1.3em;
+	line-height:$lineHeight;
 	font-weight:$weight;
 }
 
-@mixin serif-text($size, $weight:normal){
+@mixin serif-text($size, $lineHeight:1.5em, $weight:normal){
 	font-family:"Georgia", serif;
 	font-size:$size;
-	line-height:1.5em;
+	line-height:$lineHeight;
 	font-weight:$weight;
 }
 
@@ -47,7 +47,7 @@ $prob_change_width:100px;
 }
 
 .top-play__number{
-	@include sans-serif-text(14px, bold);
+	@include sans-serif-text(14px, 1.3em, bold);
 	display:flex;
 	align-items:center;
 	justify-content:center;
@@ -72,11 +72,11 @@ $prob_change_width:100px;
 }
 
 .top-play__description{
-	@include serif-text(16px);
+	@include serif-text(16px, 1.3em);
 }
 
 .top-play__prob-change{
-	@include sans-serif-text(24px, bold);
+	@include sans-serif-text(24px,1.5em ,bold);
 	display: flex;
 	align-items:center;
 	justify-content:center;
@@ -98,7 +98,32 @@ $prob_change_width:100px;
 }
 
 .top-play__score{
-	@include sans-serif-text(14px, bold);
+	@include sans-serif-text(14px,1.3em, bold);
 	text-transform:uppercase;
 	margin-top:7px;
+}
+
+.biggest-header{
+	margin:15px 0 5px 0;
+}
+
+#biggest-plays-legend dl{
+	@include sans-serif-text(12px, 1em);
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+
+	dd{
+		margin: 0 15px 0 0;
+	}
+
+	dt{
+		margin: 0 5px 0 0;
+	}
+	.box{
+		display: inline-block;
+		height: 15px;
+		width: 15px;
+		border-radius:5px;
+	}
 }
