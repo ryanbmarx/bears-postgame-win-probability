@@ -99,6 +99,7 @@ $prob_change_width:100px;
 
 .top-play__score{
 	@include sans-serif-text(14px,1.3em, bold);
+	color:#aaa;
 	text-transform:uppercase;
 	margin-top:7px;
 }
