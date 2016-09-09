@@ -30,11 +30,19 @@ $prob_change_width:100px;
 	}
 }
 
+#biggest-plays{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+
+
 .top-play{
 	margin-top:25px;
 	padding-bottom:25px;
 	border-bottom:1px solid #aaa;
-
+	width:48%;
 
 	&:last-child{
 		padding-bottom:0;
@@ -98,10 +106,14 @@ $prob_change_width:100px;
 }
 
 .top-play__score{
-	@include sans-serif-text(14px,1.3em, bold);
+	@include sans-serif-text(12px,1.3em, bold);
 	color:#aaa;
 	text-transform:uppercase;
 	margin-top:7px;
+
+	dd, dt{
+		margin:0;
+	}
 }
 
 .biggest-header{
@@ -127,4 +139,8 @@ $prob_change_width:100px;
 		width: 15px;
 		border-radius:5px;
 	}
+}
+
+@media all and (max-width: 700px){
+	.top-play{width:100%;}
 }

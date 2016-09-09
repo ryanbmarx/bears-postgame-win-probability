@@ -32,7 +32,7 @@ function getDownAndDistance(playData, visitingTeam, homeTeam){
 }
 
 
-function buildTopPlays(data, meta){
+function buildTopPlays(meta){
   console.log('building top plays');
   var homeTeam = "", 
   visitingTeam = "";
@@ -46,33 +46,60 @@ function buildTopPlays(data, meta){
     visitingTeam = meta[0]['short'];
   }
 
-  console.log('hometeam', homeTeam, 'visitingTeam', visitingTeam);
-
-
-
   // Load the top plays
     var parsedHTML = "";
-    data.forEach((value, index) => {
 
+    var chart = d3.select('#line-chart .svgContainer')
+
+    chart.selectAll('.topPlayMarker__circle, .topPlayMarker__label').remove();
+
+    var data = window.topPlaysData
+
+    data.forEach((value, index) => {
       var possessor = value['possessor'];
-      parsedHTML += `
-        <div class='top-play'>
-          <span class='top-play__number'>${index + 1}</span>
-          <div class='top-play__inner'>
-            <div class='top-play__topper'>
-              <span class='top-play__prob-change' style='background:${getTeamColors(possessor).color};color:${getTeamColors(possessor).textColor}'>
-                ${d3.format('+.1f')(value['probabilityChangeFromPreviousPlay']*100)}
-              </span>
-              <p class='top-play__time'>${getGameClock(value)} remaining in ${formatDown(value['quarter'])} quarter</p>
-              <p class='top-play__down-distance'>${getDownAndDistance(value, visitingTeam, homeTeam)}</p>
+      console.log('placing a circle');
+      chart.append('circle')
+        .attr('class', 'topPlayMarker__circle')
+        .attr('cx', d => window.xScale(value['playIndex']))
+        .attr('cy', d => window.yScale(value['prob']['away']))
+        .attr('r', 10)
+        .style('fill', getTeamColors(possessor)['color']);
+    
+      chart.append('text')
+        .text(`${index + 1}`)
+        .attr('class', 'topPlayMarker__label')
+        .attr('x', d => window.xScale(value['playIndex']))
+        .attr('y', d => window.yScale(value['prob']['away']))
+        .attr('dy', '4px')
+        .attr('text-anchor', 'middle')
+        .style('fill', getTeamColors(possessor)['textColor'])
+        .style('font','12px/1em arial, sans-serif');
+
+      if (document.getElementById('biggest-plays').innerHTML == ""){
+        parsedHTML += `
+          <div class='top-play'>
+            <span class='top-play__number' style='background:${getTeamColors(possessor).color};color:${getTeamColors(possessor).textColor}'>${index + 1}</span>
+            <div class='top-play__inner'>
+              <div class='top-play__topper'>
+                <span class='top-play__prob-change' style='background:${getTeamColors(possessor).color};color:${getTeamColors(possessor).textColor}'>
+                  ${d3.format('+.1f')(value['probabilityChangeFromPreviousPlay']*100)}
+                </span>
+                <p class='top-play__time'>${getGameClock(value)} remaining in ${formatDown(value['quarter'])} quarter</p>
+                <p class='top-play__down-distance'>${getDownAndDistance(value, visitingTeam, homeTeam)}</p>
+              </div>
+              <p class='top-play__description'>${value['description']}</p>
+              <dl class='top-play__score'>
+                <dt>Resulting score:</dt>
+                <dd>${visitingTeam} ${value['score']['home']}, ${homeTeam} ${value['score']['away']}</dd>
+              </dl>
             </div>
-            <p class='top-play__description'>${value['description']}</p>
-            <p class='top-play__score'>Resulting score: ${visitingTeam} ${value['score']['home']}, ${homeTeam} ${value['score']['away']}</p>
-          </div>
-        </div>`;
+          </div>`;
+      }
     });
-    document.getElementById('biggest-plays-legend').innerHTML = insertTopPlaysLegend(homeTeam,lookupTeamInfo(homeTeam, "sdi"),visitingTeam,lookupTeamInfo(visitingTeam, "sdi"));
-    document.getElementById('biggest-plays').innerHTML = parsedHTML;
+    if (document.getElementById('biggest-plays').innerHTML == ""){
+      document.getElementById('biggest-plays-legend').innerHTML = insertTopPlaysLegend(homeTeam,lookupTeamInfo(homeTeam, "sdi"),visitingTeam,lookupTeamInfo(visitingTeam, "sdi"));
+      document.getElementById('biggest-plays').innerHTML = parsedHTML;
+    }
 }
 
 
@@ -94,6 +121,9 @@ function drawChart(data, container, score, meta, gamechangers, dimensions) {
   var yScale = d3.scale.linear()
     .range([dimensions.chartHeight, 0])
     .domain([0, 1]);
+
+    window.xScale = xScale;
+    window.yScale = yScale;
 
   if (!$('.xAxis').length) {
     var xAxis = d3.svg.axis()
@@ -151,6 +181,7 @@ function drawChart(data, container, score, meta, gamechangers, dimensions) {
         .attr('y', yScale(.55))
         .attr('opacity', .3)
         .attr('class', 'team');
+    
   } else {
     var chart = d3.select('.svgContainer');
   }
@@ -212,11 +243,18 @@ function drawChart(data, container, score, meta, gamechangers, dimensions) {
       });
   }
 
+  console.log('drawing path');
   chart.append('path')
     .datum(data)
     .attr('class', 'line')
     .attr('d', line);
 
+  if (!$('.topPlaysContainer').length) {
+    window.topPlaysContainer = d3.select('#line-chart .svgContainer')
+      .insert('g')
+      .classed('topPlaysContainer', true);
+  }
+  buildTopPlays(meta)
   chart.selectAll('circle.play')
     .data(data).enter()
     .append('circle')
@@ -261,7 +299,6 @@ function drawChart(data, container, score, meta, gamechangers, dimensions) {
 
       return tooltip.style('visibility', 'hidden');
     });
-
 }
 
 function getTooltipContext(d, meta) {
@@ -624,13 +661,6 @@ function updateData(JSON, gameId) {
       _.throttle(_.bind(function() {
         drawChart(display_plays, el, score, meta, gamechangers, getDimensions(el, 450));
       }, this), 250));
-    // *******
-    // UPDATE THE TOP PLAYS SECTION
-    // *******
-    d3.json(`data/top_plays/top_plays_${gameId}.json`, (error, data) => {
-      if (error) return console.warn(error);
-      buildTopPlays(data, meta)
-    });
   });
 }
 
@@ -645,6 +675,13 @@ $(document).ready(function() {
   }
   $('#game-select').val(gameId);
   var JSON = 'data/winprobability__' + gameId + '.json';
+      // *******
+    // UPDATE THE TOP PLAYS SECTION
+    // *******
+    d3.json(`data/top_plays/top_plays_${gameId}.json`, (error, data) => {
+      if (error) return console.warn(error);
+      window.topPlaysData = data;
+    });
   updateData(JSON, gameId);
   if (!ISFINAL) {
     INTERVAL = setInterval(function() {
