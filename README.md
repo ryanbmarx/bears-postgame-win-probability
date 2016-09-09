@@ -4,11 +4,59 @@ A [Tarbell](http://tarbell.io) project that publishes to a P2P HTML Story.
 
 Assumptions
 -----------
-
+  
 * Python 2.7
 * Tarbell 1.0.\*
 * Node.js
 * grunt-cli (See http://gruntjs.com/getting-started#installing-the-cli)
+* Sass
+* [virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/)
+
+
+WHAT IS THIS???
+---------------
+
+This is a repurposed version of the [realtime win probability tracker](https://tribune.unfuddle.com/a#/repositories/383/browse) developed for the 2015-16 season. This version is more of a post-game analysis, placing emphasis on the plays resulting in the largest swings in win prob.
+
+HOW DO I INSTALL IT?
+--------------------
+
+Boy, where to begin .... I'll copy-and-paste from the aforementioned project's [README](https://tribune.unfuddle.com/a#/repositories/383/file?path=%2FREADME.md&commit=6388abf30dc14bc3800eeb3f02a309d4968f973d) (You do have virtualenvwrapper installed, don't you?):
+
+> Installation
+> ------------
+>   
+> Since this project has Python dependencies beyond Tarbell, you should create a virtualenv for this project:
+>   
+>     mkvirtualenv bears-win-probability
+>   
+> Then install Tarbell and other project dependencies into the virtualenv:
+>   
+>     workon bears-win-probability
+>     pip install -r requirements.txt 
+>   
+
+THE DATA
+--------
+
+The data is provided by [SportsDirect Inc. (SDI)](https://sdixmlfeeds.sportsdirectinc.com:8443/login.action?os_destination=%2Findex.action) and is baked into project-specific JSON using get_game_stats.py, which is a slightly modified version of the daemon used in 2015-16. For the real gritty details, go that repo. The data feed are authenticated by IP address, so if you get 403 errors, it means you aren't in the tower.
+
+BUILDING THE DATA
+-----------------
+
+`npm run build` will not only trigger all the grunt stuff we're used to in tarbell projects, but also a node script `buildStats.js`. That script contains an array of all the SDI game IDs for the Bears. It goes through each one in turn. If it **does not** find game data, then it skips. If it **does** find game data, it calls the win probability generator, `get_game_stats.py`. It then calls the `generateTopPlays.js` which outputs a seperate file of just the most impactful plays (currently a total of ten). These files are used by the page's javascript to make the chart.
+
+Again, a simple `npm run build` should take care of everything, but please be patient. The game stats thing might take a while to run, especially later in the season.
+
+UPDATING THE SPREADSHEET
+------------------------
+
+The app pretty much runs automatically with Javascript, but there is a dropdown generated with Jinja to allow users to click back through other games. This is done by changing the url variable on which the JS depends. When a game is complete, change that game's publish value to "1" ... otherwise it won't show up in the menu. 
+
+PUBLISHING
+----------
+
+The usual and customary `tarbell publish` should do the trick.
 
 Custom configuration
 --------------------
