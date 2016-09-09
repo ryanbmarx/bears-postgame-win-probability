@@ -76,6 +76,7 @@ function filterPlaysList(plays, topPlays){
 			if (value['seconds_remaining'] == timeSought){
 				// If there is a match, push the value into the return object.
 				value['probabilityChangeFromPreviousPlay'] = probChange;
+				value['playIndex'] = index;
 				retval.push(value);
 			}
 		});
@@ -83,9 +84,20 @@ function filterPlaysList(plays, topPlays){
 	return retval;
 }
 
+var gameID = "No game id set";
 
+process.argv.forEach((val, index) => {
+	// CYcle through the arguments to find the id
 
-const playsData = '46932';
+		if(val.indexOf('id') > -1){
+			gameID = val.split('=')[1];
+		}
+	  
+});
+
+console.log(gameID);
+
+const playsData = gameID;
 
 fs.readFile(`data/winprobability__${playsData}.json`, 'utf8', (err, data) => {
 	if (err) throw err;

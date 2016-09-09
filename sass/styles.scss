@@ -3,11 +3,15 @@ $line-color: #C11B17;
 
 @import 'top-plays';
 
-.graphic-wrapper{
-  max-width: 650px;
-  margin: 0 auto;
-}
 
+.trb_mainContent{
+  .graphic-wrapper{
+    max-width: 650px;
+    margin: 0 auto;
+
+    p{width:auto;}
+  }
+}
 .heading-wrapper {
   margin: 15px auto;
   max-width: 400px;

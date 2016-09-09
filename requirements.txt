@@ -1,0 +1,8 @@
+tarbell==1.0.3
+git+https://github.com/newsapps/p2p-python.git#egg=p2p
+git+https://github.com/newsapps/python-tribune-omniture.git#egg=tribune_omniture
+smartypants==1.8.2
+numpy==1.9.2
+scipy==0.16.0
+git+https://github.com/newsapps/python-sportsdirect.git
+Fabric==1.6

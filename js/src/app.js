@@ -674,11 +674,12 @@ $(document).ready(function() {
     // New game is 46952
   }
   $('#game-select').val(gameId);
-  var JSON = 'data/winprobability__' + gameId + '.json';
+  var JSON = `//${window.ROOT_URL}/data/winprobability__${gameId}.json`;
+  console.log(JSON);
       // *******
     // UPDATE THE TOP PLAYS SECTION
     // *******
-    d3.json(`data/top_plays/top_plays_${gameId}.json`, (error, data) => {
+    d3.json(`//${window.ROOT_URL}/data/top_plays/top_plays_${gameId}.json`, (error, data) => {
       if (error) return console.warn(error);
       window.topPlaysData = data;
     });

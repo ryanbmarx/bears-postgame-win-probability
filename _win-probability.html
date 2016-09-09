@@ -2,27 +2,21 @@
     <div class="lead">{{ intro|markdown }}</div>
     <p id="game-select-container">
         <select id="game-select">
-            <option value="46932">Bears vs. Packers</option>
-            <optgroup label="Rest of the league, week 2">
-                <option value="46947">Chiefs vs. Broncos</option>
-            </optgroup>
-            <optgroup label="Rest of the league, week 1">
-                <option value="46931">Patriots vs. Steelers</option>
-                <option value="46933">Texans vs. Chiefs</option>
-                <option value="46934">Jets vs. Browns</option>
-                <option value="46935">Bills vs. Colts</option>
-                <option value="46936">Redskins vs. Dolphins</option>
-                <option value="46937">Jaguars vs. Panthers</option>
-                <option value="46938">Rams vs. Seahawks</option>
-                <option value="46939">Cardinals vs. Saints</option>
-                <option value="46940">Chargers vs. Lions</option>
-                <option value="46941">Buccaneers vs. Titans</option>
-                <option value="46942">Raiders vs. Bengals</option>
-                <option value="46943">Broncos vs. Ravens</option>
-                <option value="46944">Cowboys vs. Giants</option>
-                <option value="46945">Falcons vs. Eagles</option>
-                <option value="46946">49ers vs. Vikings</option>
-            </optgroup>
+            {%- for game in games|sort(false, attribute='game_number') if game.id  %}
+                {% if game.publish == 1 %}
+                    {% set disabled = "" %}
+                {% else %}
+                    {% set disabled = "disabled" %}
+                {% endif %}
+
+                {% if game.selected == 1 %}
+                    {% set selected = "selected" %}
+                {% else %}
+                    {% set selected = "" %}
+                {% endif %}
+
+                <option {{ disabled }} value="{{ game.id }}" {{ selected }}>Game {{ game.game_number }}: {{ game.menu_text }}</option>
+            {% endfor %}
         </select>
     </p>
 </div>
