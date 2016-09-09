@@ -2,14 +2,14 @@
     <div class="lead">{{ intro|markdown }}</div>
     <p id="game-select-container">
         <select id="game-select">
-            {%- for game in games|sort(false, attribute='game_number') if game.id  %}
+            {%- for game in games|sort(true, attribute='game_number') if game.publish == 1  %}
                 {% if game.publish == 1 %}
                     {% set disabled = "" %}
                 {% else %}
                     {% set disabled = "disabled" %}
                 {% endif %}
 
-                {% if game.selected == 1 %}
+                {% if loop.first %}
                     {% set selected = "selected" %}
                 {% else %}
                     {% set selected = "" %}
