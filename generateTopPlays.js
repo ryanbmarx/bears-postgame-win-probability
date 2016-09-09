@@ -18,7 +18,7 @@ playsList = [
 3. Write the list to an external file.
 */
 
-var d3 = require('d3-request');
+var d3 = require('d3');
 var fs = require('fs');
 var _collection = require('lodash/collection');
 var _array = require('lodash/array');
