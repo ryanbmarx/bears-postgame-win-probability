@@ -2,41 +2,28 @@ var d3 = require('d3');
 var $ = require('jquery');
 var Backbone = require('backbone');
 var _ = require('underscore');
+var getTeamColors = require('./get-team-colors');
 
-var colorLookup = {
-  '49ers': { opponent_color: "#940029", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
-  Bears: { opponent_color: "#12182d", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
-  Bengals: { opponent_color: "#FB4F14", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
-  Bills: { opponent_color: "#C60C30", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
-  Broncos: { opponent_color: "#FB4F14", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
-  Browns: { opponent_color: "#ed7e11", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "black"},
-  Buccaneers: { opponent_color: "#D60A0B", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
-  Cardinals: { opponent_color: "#B10339", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
-  Chargers: { opponent_color: "#05173C", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "white"},
-  Chiefs: { opponent_color: "#C60024", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
-  Colts: { opponent_color: "#00417E", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "white"},
-  Cowboys: { opponent_color: "#D0D2D4", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "black"},
-  Dolphins: { opponent_color: "#008D97", opponent_text_color: "white", bears_color: "#031E2F", bears_text_color: "white"},
-  Eagles: { opponent_color: "#004953", opponent_text_color: "white", bears_color: "#031E2F", bears_text_color: "white"},
-  Falcons: { opponent_color: "#231F20", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "white"},
-  Giants: { opponent_color: "#003155", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
-  Jaguars: { opponent_color: "#00839C", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
-  Jets: { opponent_color: "#2A433A", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "white"},
-  Lions: { opponent_color: "#006EA1", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
-  Packers: { opponent_color: "#FFCC00", opponent_text_color: "white", bears_color: "#031E2F", bears_text_color: "black"},
-  Panthers: { opponent_color: "#0088CE", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
-  Patriots: { opponent_color: "#00295B", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "white"},
-  Raiders: { opponent_color: "#000000", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
-  Rams: { opponent_color: "#00295B", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
-  Ravens: { opponent_color: "#2B025B", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "white"},
-  Redskins: { opponent_color: "#8C001A", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
-  Saints: { opponent_color: "#C6A876", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
-  Seahawks: { opponent_color: "#030F1F", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
-  Steelers: { opponent_color: "#000000", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
-  Texans: { opponent_color: "#00133F", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
-  Titans: { opponent_color: "#002C4B", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
-  Vikings: { opponent_color: "#240A67", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "white"}
-};
+function insertTopPlaysLegend(homeTeamPlace,homeTeam, visitingTeamPlace,visitingTeam){
+  console.log(homeTeam, visitingTeam);
+  return`
+    <dl>
+      <dt>
+        <span class='box' style='background:${getTeamColors(visitingTeam).color}'></span>
+      </dt>
+      <dd>
+        ${visitingTeamPlace}' possession
+      </dd>
+      <dt>
+        <span class='box' style='background:${getTeamColors(homeTeam).color}'></span>
+      </dt>
+      <dd>
+        ${homeTeamPlace}' possession
+      </dd>
+  
+    </dl>
+  `;
+}
 
 function getDownAndDistance(playData, visitingTeam, homeTeam){
   var down = formatDown(playData['down']);
@@ -59,15 +46,23 @@ function buildTopPlays(data, meta){
     visitingTeam = meta[0]['short'];
   }
 
+  console.log('hometeam', homeTeam, 'visitingTeam', visitingTeam);
+
+
+
   // Load the top plays
     var parsedHTML = "";
     data.forEach((value, index) => {
+
+      var possessor = value['possessor'];
       parsedHTML += `
         <div class='top-play'>
           <span class='top-play__number'>${index + 1}</span>
           <div class='top-play__inner'>
             <div class='top-play__topper'>
-              <span class='top-play__prob-change'>${d3.format('+.1f')(value['probabilityChangeFromPreviousPlay']*100)}</span>
+              <span class='top-play__prob-change' style='background:${getTeamColors(possessor).color};color:${getTeamColors(possessor).textColor}'>
+                ${d3.format('+.1f')(value['probabilityChangeFromPreviousPlay']*100)}
+              </span>
               <p class='top-play__time'>${getGameClock(value)} remaining in ${formatDown(value['quarter'])} quarter</p>
               <p class='top-play__down-distance'>${getDownAndDistance(value, visitingTeam, homeTeam)}</p>
             </div>
@@ -76,6 +71,7 @@ function buildTopPlays(data, meta){
           </div>
         </div>`;
     });
+    document.getElementById('biggest-plays-legend').innerHTML = insertTopPlaysLegend(homeTeam,lookupTeamInfo(homeTeam, "sdi"),visitingTeam,lookupTeamInfo(visitingTeam, "sdi"));
     document.getElementById('biggest-plays').innerHTML = parsedHTML;
 }
 
