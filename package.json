@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "grunt && node buildStats.js",
-    "watch": "grunt watch"
+    "watch": "grunt watch",
+    "preview": "python preview.py"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "minifyify": "^7.3.3",
     "node-cmd": "^1.1.1",
     "python-shell": "^0.4.0",
+    "trib-styles": "git+https://tribune.unfuddle.com/git/tribune_trib-styles/",
     "xml2js": "^0.4.17"
   },
   "browserify": {

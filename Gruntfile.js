@@ -64,10 +64,11 @@ module.exports = function(grunt) {
     };
   }
 
-  config.sass = {
+config.sass = {
     options: {
-      outpuStyle: 'compressed',
-      sourceMap: true
+      outputStyle: 'compressed',
+      sourceMap: true,
+      includePaths: [ 'sass/', 'node_modules/trib-styles/sass/' ]
     },
     app: {
       files: {
