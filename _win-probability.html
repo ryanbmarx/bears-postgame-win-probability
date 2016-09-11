@@ -1,5 +1,13 @@
 <div class="row">
-    <div class="lead">{{ intro|markdown }}</div>
+    <div class="lead">
+        <aside class='win-prob-explained'>
+            <a href='#win-prob-explained'>
+                <small>Learn more:</small>
+                What is win probability?
+            </a>
+        </aside>
+        {{ intro|markdown }}
+    </div>
     <p id="game-select-container">
         <select id="game-select">
             {%- for game in games|sort(true, attribute='game_number') if game.publish == 1  %}
@@ -27,10 +35,15 @@
     <div id="line-chart"></div>
 </div>
 <div class="row">
-        <h2 class='biggest-header'>The biggest plays of the game</h2>
+        <h2 class='biggest-header'>{{ biggest_plays_head }}</h2>
+        <p class='subhead'>{{ biggest_plays_subhead }}</p>
         <div id='biggest-plays-legend'></div>
         <div id='biggest-plays'></div>
 </div>
+<section id='win-prob-explained'>
+    <h2 class='label3'>What is win probability?</h2>
+    {{ what_is_win_prob|markdown }}
+</section>
 <div class="sources">
         {{ sources|markdown }}        
         {{ credits|markdown }}
