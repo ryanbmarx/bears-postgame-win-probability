@@ -1,7 +1,11 @@
 $sans-type: 'Arial', sans-serif;
 $line-color: #C11B17;
 
+@import 'base-variables';
+
+
 @import 'top-plays';
+@import 'win-prob-explained';
 
 
 .trb_mainContent{

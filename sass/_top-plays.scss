@@ -2,7 +2,7 @@ $bears_blue: #0B162A;
 $bears_orange: #C83803;
 
 $top_play_number_width:25px;
-$prob_change_width:100px;
+$prob_change_width:80px;
 
 @mixin sans-serif-text($size, $lineHeight:1.3em, $weight:normal){
 	font-family:"Arial", sans-serif;
@@ -30,6 +30,11 @@ $prob_change_width:100px;
 	}
 }
 
+.subhead{
+	@include sans-serif-text(14px);
+	font-style:italic;
+}
+
 #biggest-plays{
 	display: flex;
 	flex-wrap: wrap;
@@ -39,10 +44,11 @@ $prob_change_width:100px;
 
 
 .top-play{
-	margin-top:25px;
-	padding-bottom:25px;
-	border-bottom:1px solid #aaa;
-	width:48%;
+	margin-top:7px;
+	padding:15px;
+	background:#eee;
+	// border-bottom:1px solid #aaa;
+	width:45%;
 
 	&:last-child{
 		padding-bottom:0;
@@ -93,7 +99,7 @@ $prob_change_width:100px;
 	width:$prob_change_width;
 	height:50px;
 
-	background:$bears_orange;
+	background:$bears_blue;
 	color:white;
 	border-radius:5px;
 }
@@ -103,6 +109,13 @@ $prob_change_width:100px;
 .trb_mainContent .top-play__time,.trb_mainContent .top-play__down-distance{
 	@include sans-serif-text(14px);
 	margin:0 0 0 ($prob_change_width + 15px);
+	max-width:175px;
+}
+
+.trb_mainContent .top-play__down-distance{
+	padding-top:5px;
+	margin-top:5px;
+	border-top: 1px dashed #aaa;
 }
 
 .trb_mainContent .top-play__score{
@@ -121,27 +134,50 @@ $prob_change_width:100px;
 	margin:15px 0 5px 0;
 }
 
-.trb_mainContent #biggest-plays-legend dl{
-	@include sans-serif-text(12px, 1em);
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
+.trb_mainContent #biggest-plays-legend {
+    margin: 10px 0 40px 0;
 
-	dd{
-		margin: 0 15px 0 0;
-	}
+	dl{
+		@include sans-serif-text(12px, 1em);
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
 
-	dt{
-		margin: 0 5px 0 0;
+		dd{
+			margin: 0 15px 0 0;
+
+			&:after{
+				content:"";
+			}
+		}
+
+		dt{
+			margin: 0 5px 0 0;
+		}
+		.box{
+			display: inline-block;
+			height: 15px;
+			width: 15px;
+			border-radius:5px;
+
+		}
 	}
-	.box{
-		display: inline-block;
-		height: 15px;
-		width: 15px;
-		border-radius:5px;
-	}
+}
+.box--bears-win-prob{
+	background-color: $bears_orange;
 }
 
 @media all and (max-width: 700px){
-	.top-play{width:100%;}
+	.top-play{
+		width:100%;
+		border-bottom:1px solid #aaa;
+		padding: 0 0 15px 0;
+		margin: 0 0 25px 0;
+		background: none;
+
+		&:last-child{
+			padding-bottom:0;
+			border-bottom:none;		
+		}
+	}
 }
