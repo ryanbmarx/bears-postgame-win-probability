@@ -2,6 +2,13 @@
 
 A [Tarbell](http://tarbell.io) project that publishes to a P2P HTML Story.
 
+TODO
+----
+
+- Fix tooltip
+- Fix SVGs dropping out
+- Massage type styles in NGUX
+
 Assumptions
 -----------
   
