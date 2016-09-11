@@ -20,6 +20,12 @@ function insertTopPlaysLegend(homeTeamPlace,homeTeam, visitingTeamPlace,visiting
       <dd>
         ${homeTeamPlace}' possession
       </dd>
+        <dt>
+        <span class='box box--bears-win-prob'></span>
+      </dt>
+      <dd>
+        Change in Bears' win probability
+      </dd>
   
     </dl>
   `;
@@ -27,8 +33,13 @@ function insertTopPlaysLegend(homeTeamPlace,homeTeam, visitingTeamPlace,visiting
 
 function getDownAndDistance(playData, visitingTeam, homeTeam){
   var down = formatDown(playData['down']);
-  var yardline_team = playData['yardline_align'] == "away" ? visitingTeam : homeTeam;
-  return `${down} and ${playData['distance']} on ${yardline_team} ${playData['yardline']}`;
+
+  if (down != undefined){
+    var yardline_team = playData['yardline_align'] == "away" ? visitingTeam : homeTeam;
+    // return `${down} and ${playData['distance']} on ${yardline_team} ${playData['yardline']}`;
+    return `<p class='top-play__down-distance'>${down} and ${playData['distance']} on ${yardline_team} ${playData['yardline']}</p>`;
+  }
+  return "";
 }
 
 
@@ -81,11 +92,11 @@ function buildTopPlays(meta){
             <span class='top-play__number' style='background:${getTeamColors(possessor).color};color:${getTeamColors(possessor).textColor}'>${index + 1}</span>
             <div class='top-play__inner'>
               <div class='top-play__topper'>
-                <span class='top-play__prob-change' style='background:${getTeamColors(possessor).color};color:${getTeamColors(possessor).textColor}'>
+                <span class='top-play__prob-change'>
                   ${d3.format('+.1f')(value['probabilityChangeFromPreviousPlay']*100)}
                 </span>
-                <p class='top-play__time'>${getGameClock(value)} remaining in ${formatDown(value['quarter'])} quarter</p>
-                <p class='top-play__down-distance'>${getDownAndDistance(value, visitingTeam, homeTeam)}</p>
+                <p class='top-play__time'>${getGameClock(value)} remaining in ${formatDown(value['quarter'])}</p>
+                ${getDownAndDistance(value, visitingTeam, homeTeam)}
               </div>
               <p class='top-play__description'>${value['description']}</p>
               <dl class='top-play__score'>
