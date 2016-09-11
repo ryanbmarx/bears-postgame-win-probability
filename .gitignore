@@ -10,3 +10,4 @@ css
 js/app.min.js
 js/vendor.min.js
 js/*.map 
+.DS_Store
