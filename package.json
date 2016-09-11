@@ -29,6 +29,7 @@
     "minifyify": "^7.3.3",
     "node-cmd": "^1.1.1",
     "python-shell": "^0.4.0",
+    "svg4everybody": "^2.1.0",
     "trib-styles": "git+https://tribune.unfuddle.com/git/tribune_trib-styles/",
     "xml2js": "^0.4.17"
   },
