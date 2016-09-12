@@ -51,7 +51,7 @@ $prob_change_width:80px;
 	width:45%;
 
 	&:last-child{
-		padding-bottom:0;
+		// padding-bottom:0;
 		border-bottom:none;		
 	}
 }
@@ -158,12 +158,14 @@ $prob_change_width:80px;
 			display: inline-block;
 			height: 15px;
 			width: 15px;
-			border-radius:5px;
+			border-radius:50%;
 
 		}
 	}
 }
 .box--bears-win-prob{
+	@extend .top-play__prob-change;
+	width:$prob_change_width/3;
 	background-color: $bears_orange;
 }
 

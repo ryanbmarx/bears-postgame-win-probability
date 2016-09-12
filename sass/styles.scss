@@ -6,6 +6,7 @@ $line-color: #C11B17;
 
 @import 'top-plays';
 @import 'win-prob-explained';
+@import 'scoreboard';
 
 
 .trb_mainContent{
@@ -107,17 +108,17 @@ table#scoreboard{
   }
 }
 
-dl.last-play {
-  font-family: $sans-type;
+// dl.last-play {
+//   font-family: $sans-type;
 
-  dt {
-    font-size: 18px;
-  }
+//   dt {
+//     font-size: 18px;
+//   }
 
-  dd {
-    font-size: 14px;
-  }
-}
+//   dd {
+//     font-size: 14px;
+//   }
+// }
 
 .trb_mainContent .sources p, .chart-source {
     font-size: 12px;

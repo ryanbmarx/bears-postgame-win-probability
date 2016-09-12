@@ -1,0 +1,80 @@
+
+.trb_mainContent #scoreboard{
+  font-family: $sans-type;
+  margin-bottom: 15px;
+  width: 100%;
+
+  thead tr {
+    border-bottom: 1px solid black;
+  }
+
+  th {
+    padding: 5px 10px;
+    background: #eee;
+    font-size:12px;
+
+    span {
+      font-weight: normal;
+      color: #666;
+    }
+  }
+
+  th:not(:first-child) {
+    text-align: center;
+  }
+
+  tbody {
+    tr {
+
+      .img-container {
+        width: 35px;
+        height: 35px;
+        margin-right: 5px;
+        position: absolute;
+        top: 4px;
+      }
+
+      td {
+        padding: 8px 12px;
+        font-size: 20px;
+
+        &.team-name {
+          position: relative;
+        }
+      }
+
+      td:first-child {
+        text-transform: uppercase;
+        font-weight: bold;
+        line-height: 1em;
+        margin-right: 10px;
+
+        span {
+          display: block;
+          margin-left: 45px;
+        }
+      }
+
+      td:not(:first-child) {
+        text-align: center;
+      }
+
+      td:not(:first-child):not(:last-child) {
+        color: #aaa;
+        font-weight: bold;
+      }
+
+      td:last-child {
+        font-weight: bold;
+      }
+    }
+
+    tr:first-child {
+      border-bottom: 1px solid #ccc;
+    }
+
+    tr:last-child {
+      border: none;
+    }
+  }
+}
