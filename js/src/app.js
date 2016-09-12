@@ -21,7 +21,7 @@ function insertTopPlaysLegend(homeTeamPlace,homeTeam, visitingTeamPlace,visiting
         ${homeTeamPlace}' possession
       </dd>
         <dt>
-        <span class='box box--bears-win-prob'></span>
+        <span class='box--bears-win-prob'>XX</span>
       </dt>
       <dd>
         Change in Bears' win probability
@@ -68,11 +68,10 @@ function buildTopPlays(meta){
 
     data.forEach((value, index) => {
       var possessor = value['possessor'];
-      console.log('placing a circle');
       chart.append('circle')
         .attr('class', 'topPlayMarker__circle')
         .attr('cx', d => window.xScale(value['playIndex']))
-        .attr('cy', d => window.yScale(value['prob']['away']))
+        .attr('cy', d => window.yScale(value['prob']['away']+value['resultingChangeInWinProb']))
         .attr('r', 10)
         .style('fill', getTeamColors(possessor)['color']);
     
@@ -80,7 +79,7 @@ function buildTopPlays(meta){
         .text(`${index + 1}`)
         .attr('class', 'topPlayMarker__label')
         .attr('x', d => window.xScale(value['playIndex']))
-        .attr('y', d => window.yScale(value['prob']['away']))
+        .attr('y', d => window.yScale(value['prob']['away']+value['resultingChangeInWinProb']))
         .attr('dy', '4px')
         .attr('text-anchor', 'middle')
         .style('fill', getTeamColors(possessor)['textColor'])
@@ -93,16 +92,16 @@ function buildTopPlays(meta){
             <div class='top-play__inner'>
               <div class='top-play__topper'>
                 <span class='top-play__prob-change'>
-                  ${d3.format('+.1f')(value['probabilityChangeFromPreviousPlay']*100)}
+                  ${d3.format('+.1f')(value['resultingChangeInWinProb']*100)}
                 </span>
                 <p class='top-play__time'>${getGameClock(value)} remaining in ${formatDown(value['quarter'])}</p>
                 ${getDownAndDistance(value, visitingTeam, homeTeam)}
               </div>
               <p class='top-play__description'>${value['description']}</p>
-              <dl class='top-play__score'>
+              <!--<dl class='top-play__score'>
                 <dt>Resulting score:</dt>
                 <dd>${visitingTeam} ${value['score']['home']}, ${homeTeam} ${value['score']['away']}</dd>
-              </dl>
+              </dl>-->
             </div>
           </div>`;
       }
@@ -254,7 +253,7 @@ function drawChart(data, container, score, meta, gamechangers, dimensions) {
       });
   }
 
-  console.log('drawing path');
+  // console.log('drawing path');
   chart.append('path')
     .datum(data)
     .attr('class', 'line')
@@ -681,12 +680,11 @@ $(document).ready(function() {
   if (search.length && search.indexOf('game') != -1) {
     var gameId = search.replace('?', '').replace('game=', '');
   } else {
-    var gameId = 46932;
-    // New game is 46952
+    var gameId = $('#game-select option:first-child').val();
   }
   $('#game-select').val(gameId);
   var JSON = `//${window.ROOT_URL}/data/winprobability__${gameId}.json`;
-  console.log(JSON);
+  // console.log(JSON);
       // *******
     // UPDATE THE TOP PLAYS SECTION
     // *******

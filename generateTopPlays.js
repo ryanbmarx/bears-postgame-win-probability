@@ -32,25 +32,23 @@ function makePlaysList(plays, homeAwayTeam){
 
 	console.log('>>> Making top plays lists'.green)
 	var currentProb,
-	previousProb,
+	nextProb,
 	retval={},
 	sortedPlays=[];
 
 
 
 	plays.forEach( (value, index, array) => {
-		if(value['seconds_remaining'] < 3600){
 			// We want to skip the first play, b/c there is no change from previous play. 
-
+			
 			currentProb = value["prob"][homeAwayTeam]
-			previousProb = index - 1 >= 0 ? plays[(index-1)]["prob"][homeAwayTeam] : 0;
+			nextProb = index + 1 < plays.length ? plays[(index+1)]["prob"][homeAwayTeam] : 0;
 
 			sortedPlays.push({
 				seconds_remaining:value["seconds_remaining"],
-				probDiffAbs:Math.abs(currentProb - previousProb),
-				probDiff:(currentProb - previousProb)
+				probDiffAbs:Math.abs(nextProb-currentProb),
+				probDiff:(nextProb-currentProb)
 			});
-		}
 	});
 
 	// take the array of times/winProbJumps and sort it by most impactful
@@ -59,7 +57,7 @@ function makePlaysList(plays, homeAwayTeam){
 
 	// Add most negative plays for home team to return value
 	retval = _array.slice(sortedPlays, 0, 10);
-
+	// console.log(retval);
 	return retval
 }
 
@@ -80,12 +78,13 @@ function filterPlaysList(plays, topPlays){
 			// Go through each play, looking for a matching time index
 			if (value['seconds_remaining'] == timeSought){
 				// If there is a match, push the value into the return object.
-				value['probabilityChangeFromPreviousPlay'] = probChange;
+				value['resultingChangeInWinProb'] = probChange;
 				value['playIndex'] = index;
 				retval.push(value);
 			}
 		});
 	});
+	// console.log(retval);
 	return retval;
 }
 
