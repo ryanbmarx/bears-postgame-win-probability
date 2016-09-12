@@ -174,7 +174,7 @@ function drawChart(data, container, score, meta, gamechangers, dimensions) {
       .append('use')
         .attr('height', (dimensions.chartHeight/2) + 'px')
         .attr('width', (dimensions.chartWidth/2) + 'px')
-        .attr('xlink:href', `//${window.ROOT_URL}/img/nfl-logos.svg#${getTeams(meta).away.abbrv}`)
+        .attr('xlink:href', `#${getTeams(meta).away.abbrv}`)
         .attr('x', xScale(1))
         .attr('y', yScale(1.05))
         .attr('opacity', .3)
@@ -186,7 +186,7 @@ function drawChart(data, container, score, meta, gamechangers, dimensions) {
         .attr('height', (dimensions.chartHeight/2))
         .attr('width', (dimensions.chartWidth/2))
         // .attr('xlink:href', 'img/nfl-logos.svg#' + getTeams(meta).home.abbrv)
-        .attr('xlink:href', `//${window.ROOT_URL}/img/nfl-logos.svg#${getTeams(meta).home.abbrv}`)
+        .attr('xlink:href', `#${getTeams(meta).home.abbrv}`)
         .attr('x', xScale(1))
         .attr('y', yScale(.55))
         .attr('opacity', .3)
@@ -265,50 +265,50 @@ function drawChart(data, container, score, meta, gamechangers, dimensions) {
       .classed('topPlaysContainer', true);
   }
   buildTopPlays(meta)
-  chart.selectAll('circle.play')
-    .data(data).enter()
-    .append('circle')
-    .attr('class', 'play')
-    .attr('cx', function(d) { return xScale(d.play); })
-    .attr('cy', function(d) {
-      if (WIN_PROB_CHANGES[d.play].abs_diff == null) {
-        var value = WIN_PROB_CHANGES[d.play].before;
-      } else {
-        var value = WIN_PROB_CHANGES[d.play].after;
-      }
-      return yScale(value);
-    })
-    .attr('r', 6.3)
-    .on('mouseover', function(d) {
-      var tooltipTpl = _.template($('#tpl-tooltip').html());
-      var context = getTooltipContext(d, meta);
+//   chart.selectAll('circle.play')
+//     .data(data).enter()
+//     .append('circle')
+//     .attr('class', 'play')
+//     .attr('cx', function(d) { return xScale(d.play); })
+//     .attr('cy', function(d) {
+//       if (WIN_PROB_CHANGES[d.play].abs_diff == null) {
+//         var value = WIN_PROB_CHANGES[d.play].before;
+//       } else {
+//         var value = WIN_PROB_CHANGES[d.play].after;
+//       }
+//       return yScale(value);
+//     })
+//     .attr('r', 6.3)
+//     .on('mouseover', function(d) {
+//       var tooltipTpl = _.template($('#tpl-tooltip').html());
+//       var context = getTooltipContext(d, meta);
 
-      tooltip.html(tooltipTpl(context));
+//       tooltip.html(tooltipTpl(context));
 
-      var el = d3.select(this);
-      el.classed('active', true);
+//       var el = d3.select(this);
+//       el.classed('active', true);
 
-      return tooltip.style('visibility', 'visible');
-    })
-    .on('mousemove', function(d) {
-      var tipWidth = parseInt(tooltip.style('width'), 10);
+//       return tooltip.style('visibility', 'visible');
+//     })
+//     .on('mousemove', function(d) {
+//       var tipWidth = parseInt(tooltip.style('width'), 10);
 
-      if (d3.event.pageX > ((dimensions.chartWidth - tipWidth))) {
-        return tooltip
-          .style('top', (d3.event.pageY - 40) + 'px')
-          .style('left',(d3.event.pageX - (tipWidth + 32)) + 'px');
-      } else {
-        return tooltip
-          .style('top', (d3.event.pageY - 40) + 'px')
-          .style('left',(d3.event.pageX + 10) + 'px');
-      }
-    })
-    .on('mouseout', function(d) {
-      var el = d3.select(this);
-      el.classed('active', false);
+//       if (d3.event.pageX > ((dimensions.chartWidth - tipWidth))) {
+//         return tooltip
+//           .style('top', (d3.event.pageY - 40) + 'px')
+//           .style('left',(d3.event.pageX - (tipWidth + 32)) + 'px');
+//       } else {
+//         return tooltip
+//           .style('top', (d3.event.pageY - 40) + 'px')
+//           .style('left',(d3.event.pageX + 10) + 'px');
+//       }
+//     })
+//     .on('mouseout', function(d) {
+//       var el = d3.select(this);
+//       el.classed('active', false);
 
-      return tooltip.style('visibility', 'hidden');
-    });
+//       return tooltip.style('visibility', 'hidden');
+//     });
 }
 
 function getTooltipContext(d, meta) {

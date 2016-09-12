@@ -1,6 +1,9 @@
 {# Override the `container` block to disable default layout. #}
 {% block container %}
 {% block content %}
+    <div style='display:none;visibility:invisible;height:0'>
+        {% include 'img/nfl-logos.svg' %}
+    </div>
 	<div class='graphic-wrapper'>
 		{% include "_win-probability.html" %}
 	</div>
@@ -39,7 +42,7 @@
 
     <script type="text/template" id="tpl-tinyLogo">
         <svg viewBox="0 0 250 250" class="nfl-logo">
-            <use xlink:href="http://{{ ROOT_URL }}/img/nfl-logos.svg#<%= abbrv %>"></use>
+            <use xlink:href="#<%= abbrv %>"></use>
         </svg>
     </script>
 
