@@ -8,6 +8,8 @@
 	margin: 0 0 15px 20px;
 	cursor:pointer;
 	border-left:3px solid #004E87;
+	position:relative;
+	z-index:10;
 
 	a{
 		@include sans-serif-text(20px, 1.3em, bold);
