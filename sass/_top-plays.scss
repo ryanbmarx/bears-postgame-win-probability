@@ -164,9 +164,17 @@ $prob_change_width:80px;
 	}
 }
 .box--bears-win-prob{
-	@extend .top-play__prob-change;
-	width:$prob_change_width/3;
-	background-color: $bears_orange;
+	@include sans-serif-text(13px,1em ,bold);
+	display: flex;
+	align-items:center;
+	justify-content:center;
+
+	width:30px;
+	height:24px;
+
+	background:$bears_blue;
+	color:white;
+	border-radius:5px;
 }
 
 @media all and (max-width: 700px){
