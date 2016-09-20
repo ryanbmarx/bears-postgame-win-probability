@@ -6,7 +6,13 @@
                 What is win probability?
             </a>
         </aside>
-        {{ intro_part1|markdown }}
+        {% set gameID = request.args.get("game") %}
+
+        {%- for game in games if game.id|int == gameID|int  %}
+                {{ game.intro|markdown }}
+        {% endfor %}
+        
+        {# {{ intro_part1|markdown }} #}
         {{ intro_part2|markdown }}
     </div>
     <p id="game-select-container">
@@ -17,7 +23,7 @@
                 {% else %}
                     {% set disabled = "disabled" %}
                 {% endif %}
-
+                
                 {% if loop.first %}
                     {% set selected = "selected" %}
                 {% else %}
