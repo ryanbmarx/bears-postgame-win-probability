@@ -6,19 +6,13 @@
                 What is win probability?
             </a>
         </aside>
-        {% set gameID = request.args.get("game") %}
-        {% if gameID > 0 %}
-            {%- for game in games if game.id|int == gameID|int  %}
-                    {{ game.intro|markdown }}
-            {% endfor %}
-        {% else %}
+        <div id='game_intro'>
             {%- for game in games|sort(true, attribute='game_number') if game.publish|int == 1  %}
-                    {% if loop.first %}
-                        {{ game.intro|markdown }}
-                    {% endif %}
+                {% if loop.first %}
+                    {{ game.intro|markdown }}
+                {% endif %}
             {% endfor %}
-        {% endif %}    
-        {# {{ intro_part1|markdown }} #}
+        </div>
         {{ intro_part2|markdown }}
     </div>
     <p id="game-select-container">

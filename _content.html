@@ -62,6 +62,16 @@
 
   window.ROOT_URL = "{{ ROOT_URL }}";
 
+
+  window.gameIntroBlurbs = {
+    {%- for game in games|sort(true, attribute='game_number') if game.publish|int == 1  %}
+        {{ game.id }}:"{{ game.intro|markdown|e }}"{% if not loop.last %},{% endif %}
+    {% endfor %}
+  };
+
+
+
+
 })(document);    
 </script>
 {% endblock scripts %}

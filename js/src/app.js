@@ -698,6 +698,9 @@ $(document).ready(function() {
     var gameId = $('#game-select option:first-child').val();
   }
   $('#game-select').val(gameId);
+  
+  d3.select('#game_intro').html(window.gameIntroBlurbs[gameId]);
+
   var JSON = `//${window.ROOT_URL}/data/winprobability__${gameId}.json`;
   // console.log(JSON);
       // *******
