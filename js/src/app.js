@@ -5,7 +5,6 @@ var _ = require('underscore');
 var getTeamColors = require('./get-team-colors');
 
 function insertTopPlaysLegend(homeTeamPlace,homeTeam, visitingTeamPlace,visitingTeam){
-  console.log(homeTeam, visitingTeam);
   return`
     <dl>
       <dt>
@@ -56,7 +55,7 @@ function buildTopPlays(meta){
     homeTeam = meta[1]['short'];   
     visitingTeam = meta[0]['short'];
   }
-
+  console.log(homeTeam);
   // Load the top plays
     var parsedHTML = "";
 
@@ -65,21 +64,37 @@ function buildTopPlays(meta){
     chart.selectAll('.topPlayMarker__circle, .topPlayMarker__label').remove();
 
     var data = window.topPlaysData
-
+    console.log(data);
     data.forEach((value, index) => {
+      console.log(window.xScale(value['playIndex']), window.yScale(value['prob']['away'] + value['resultingChangeInWinProb']));
+      
+      var yPlot = "";
+      if(homeTeam == "Bears") {
+        yPlot = window.yScale(value['prob']['away'] - value['resultingChangeInWinProb']);
+      } else {
+        yPlot = window.yScale(value['prob']['away'] + value['resultingChangeInWinProb']);
+      }
+
+      var xPlot = "";
+      if(homeTeam == "Bears") {
+        xPlot = 1;
+      } else {
+        xPlot = 0;
+      }
+
       var possessor = value['possessor'];
       chart.append('circle')
         .attr('class', 'topPlayMarker__circle')
-        .attr('cx', d => window.xScale(value['playIndex']))
-        .attr('cy', d => window.yScale(value['prob']['away']+value['resultingChangeInWinProb']))
+        .attr('cx', window.xScale(value['playIndex'] + xPlot))
+        .attr('cy', yPlot)
         .attr('r', 10)
         .style('fill', getTeamColors(possessor)['color']);
     
       chart.append('text')
         .text(`${index + 1}`)
         .attr('class', 'topPlayMarker__label')
-        .attr('x', d => window.xScale(value['playIndex']))
-        .attr('y', d => window.yScale(value['prob']['away']+value['resultingChangeInWinProb']))
+        .attr('x', d => window.xScale(value['playIndex'] + xPlot))
+        .attr('y', d => yPlot)
         .attr('dy', '4px')
         .attr('text-anchor', 'middle')
         .style('fill', getTeamColors(possessor)['textColor'])
