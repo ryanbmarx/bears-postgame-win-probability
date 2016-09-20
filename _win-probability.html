@@ -7,11 +7,17 @@
             </a>
         </aside>
         {% set gameID = request.args.get("game") %}
-
-        {%- for game in games if game.id|int == gameID|int  %}
-                {{ game.intro|markdown }}
-        {% endfor %}
-        
+        {% if gameID > 0 %}
+            {%- for game in games if game.id|int == gameID|int  %}
+                    {{ game.intro|markdown }}
+            {% endfor %}
+        {% else %}
+            {%- for game in games|sort(true, attribute='game_number') if game.publish|int == 1  %}
+                    {% if loop.first %}
+                        {{ game.intro|markdown }}
+                    {% endif %}
+            {% endfor %}
+        {% endif %}    
         {# {{ intro_part1|markdown }} #}
         {{ intro_part2|markdown }}
     </div>
