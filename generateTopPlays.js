@@ -37,27 +37,39 @@ function makePlaysList(plays, homeAwayTeam){
 	sortedPlays=[];
 
 
-
-	plays.forEach( (value, index, array) => {
-			// We want to skip the first play, b/c there is no change from previous play. 
-			
-			currentProb = value["prob"][homeAwayTeam]
-			nextProb = index + 1 < plays.length ? plays[(index+1)]["prob"][homeAwayTeam] : 0;
+	for (var i=1; i < plays.length; i++){
+			currentProb = plays[i]["prob"][homeAwayTeam]
+			nextProb = i + 1 < plays.length ? plays[(i+1)]["prob"][homeAwayTeam] : 0;
 
 			sortedPlays.push({
-				seconds_remaining:value["seconds_remaining"],
+				seconds_remaining:plays[i]["seconds_remaining"],
 				probDiffAbs:Math.abs(nextProb-currentProb),
-				probDiff:(nextProb-currentProb)
+				probDiff:(nextProb-currentProb),
+				desc:plays[i]["description"]
 			});
-	});
+	}
+	// plays.forEach( (value, index, array) => {
+	// 		// We want to skip the first play, b/c there is no change from previous play. 
+			
+	// 		currentProb = value["prob"][homeAwayTeam]
+	// 		nextProb = index + 1 < plays.length ? plays[(index+1)]["prob"][homeAwayTeam] : 0;
+
+	// 		sortedPlays.push({
+	// 			seconds_remaining:value["seconds_remaining"],
+	// 			probDiffAbs:Math.abs(nextProb-currentProb),
+	// 			probDiff:(nextProb-currentProb),
+	// 			desc:value["description"]
+	// 		});
+	// });
 
 	// take the array of times/winProbJumps and sort it by most impactful
 	// plays (absolute value of win prob difference), not time.
 	sortedPlays = _collection.orderBy(sortedPlays, 'probDiffAbs', 'desc');
+	console.log(sortedPlays);
 
-	// Add most negative plays for home team to return value
+	// Filter the list down to just the top 10 plays by abs value
 	retval = _array.slice(sortedPlays, 0, 10);
-	// console.log(retval);
+	console.log(retval);
 	return retval
 }
 
@@ -68,15 +80,16 @@ function filterPlaysList(plays, topPlays){
 	*/
 
 	console.log('>>> Plucking top plays from master list'.green);
-
 	var retval = [];
-	topPlays.forEach((value, index) => {
+	topPlays.forEach((topValue, topIndex) => {
 		// Go play by play through the top plays lists
-		var timeSought = value['seconds_remaining'];
-		var probChange = value['probDiff'];
+		var timeSought = topValue['seconds_remaining'];
+		var descSought = topValue['desc'];
+		var probChange = topValue['probDiff'];
 		plays.forEach((value, index) => {
-			// Go through each play, looking for a matching time index
-			if (value['seconds_remaining'] == timeSought){
+			// Go through each play, looking for a matching time index and play description
+			if (value['description'] == descSought &&  value['seconds_remaining'] == timeSought ){
+				// console.log(index);
 				// If there is a match, push the value into the return object.
 				value['resultingChangeInWinProb'] = probChange;
 				value['playIndex'] = index;
@@ -84,7 +97,8 @@ function filterPlaysList(plays, topPlays){
 			}
 		});
 	});
-	// console.log(retval);
+	console.log(retval);
+	retval = _array.slice(retval, 0, 10);
 	return retval;
 }
 
