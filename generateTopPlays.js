@@ -32,75 +32,32 @@ function makePlaysList(plays, homeAwayTeam){
 
 	console.log('>>> Making top plays lists'.green)
 	var currentProb,
-	nextProb,
-	retval={},
-	sortedPlays=[];
+	nextProb;
 
 
-	for (var i=1; i < plays.length; i++){
+	for (var i=0; i < plays.length; i++){
+
 			currentProb = plays[i]["prob"][homeAwayTeam]
 			nextProb = i + 1 < plays.length ? plays[(i+1)]["prob"][homeAwayTeam] : 0;
-
-			sortedPlays.push({
-				seconds_remaining:plays[i]["seconds_remaining"],
-				probDiffAbs:Math.abs(nextProb-currentProb),
-				probDiff:(nextProb-currentProb),
-				desc:plays[i]["description"]
-			});
+			if(i == 0){
+				// We want to skip the kickoff. 
+				plays[i]["probDiffAbs"] = 0;
+			} else {
+				plays[i]["probDiffAbs"] = Math.abs(nextProb-currentProb);
+			}
+			plays[i]['resultingChangeInWinProb'] = (nextProb-currentProb);
+			plays[i]["playIndex"] = i;
 	}
-	// plays.forEach( (value, index, array) => {
-	// 		// We want to skip the first play, b/c there is no change from previous play. 
-			
-	// 		currentProb = value["prob"][homeAwayTeam]
-	// 		nextProb = index + 1 < plays.length ? plays[(index+1)]["prob"][homeAwayTeam] : 0;
-
-	// 		sortedPlays.push({
-	// 			seconds_remaining:value["seconds_remaining"],
-	// 			probDiffAbs:Math.abs(nextProb-currentProb),
-	// 			probDiff:(nextProb-currentProb),
-	// 			desc:value["description"]
-	// 		});
-	// });
 
 	// take the array of times/winProbJumps and sort it by most impactful
 	// plays (absolute value of win prob difference), not time.
-	sortedPlays = _collection.orderBy(sortedPlays, 'probDiffAbs', 'desc');
-	console.log(sortedPlays);
+	sortedPlays = _collection.orderBy(plays, 'probDiffAbs', 'desc');
 
 	// Filter the list down to just the top 10 plays by abs value
 	retval = _array.slice(sortedPlays, 0, 10);
-	console.log(retval);
 	return retval
 }
 
-function filterPlaysList(plays, topPlays){
-	/*
-	Takes the array of all plays and reduces it down to the most impactful plays It
-	uses the result of makePlaysList and uses the seconds_remaining as a key
-	*/
-
-	console.log('>>> Plucking top plays from master list'.green);
-	var retval = [];
-	topPlays.forEach((topValue, topIndex) => {
-		// Go play by play through the top plays lists
-		var timeSought = topValue['seconds_remaining'];
-		var descSought = topValue['desc'];
-		var probChange = topValue['probDiff'];
-		plays.forEach((value, index) => {
-			// Go through each play, looking for a matching time index and play description
-			if (value['description'] == descSought &&  value['seconds_remaining'] == timeSought ){
-				// console.log(index);
-				// If there is a match, push the value into the return object.
-				value['resultingChangeInWinProb'] = probChange;
-				value['playIndex'] = index;
-				retval.push(value);
-			}
-		});
-	});
-	console.log(retval);
-	retval = _array.slice(retval, 0, 10);
-	return retval;
-}
 
 var gameID = "No game id set";
 
@@ -112,8 +69,6 @@ process.argv.forEach((val, index) => {
 	  
 });
 
-console.log(gameID);
-
 const playsData = gameID;
 
 fs.readFile(`data/winprobability__${playsData}.json`, 'utf8', (err, data) => {
@@ -122,15 +77,12 @@ fs.readFile(`data/winprobability__${playsData}.json`, 'utf8', (err, data) => {
 	const plays = jsonData['plays'];
 	const homeAwayTeam = jsonData['metadata']['home'] == 'Chicago' ? 'home' : 'away';
 
-	console.log(homeAwayTeam);
-//"metadata": {"home": "Chicago", "away": "Green Bay", "is_finished": true}}
-
 
 	const topPlays = makePlaysList(plays, homeAwayTeam);
-	const filteredPlays = filterPlaysList(plays, topPlays);
+	// const filteredPlays = filterPlaysList(plays, topPlays);
 
 	console.log(">>> Writing file to external".green);
-	fs.writeFile(`data/top_plays/top_plays_${playsData}.json`, JSON.stringify(filteredPlays), (err) => {
+	fs.writeFile(`data/top_plays/top_plays_${playsData}.json`, JSON.stringify(topPlays), (err) => {
 		if(err) {
 			return console.log(err.red.inverse);
 		}
