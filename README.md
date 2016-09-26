@@ -2,6 +2,19 @@
 
 A [Tarbell](http://tarbell.io) project that publishes to a P2P HTML Story.
 
+THE SHORT VERSION OF WHAT YOU NEED TO DO
+----------------------------------------
+
+1. `npm run build` which will download all available game data
+2. For now, generate the top plays manually using the command `node generateTopPlays.js id=gameid` obviously swapping in the game id.
+3. Set the game to "publish" in the games tab of the spreadsheet
+4. Add a blurb about the game to the games tab
+5. Update the headline to reference the proper teams.
+6. Change the thumbnail in p2p.
+7. CHeck the asset's related items. Make sure they all are relevant to THIS game (i.e. not last week's gallery).
+8. Publish as normal.
+
+
 TODO
 ----
 
