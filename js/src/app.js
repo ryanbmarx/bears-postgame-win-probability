@@ -694,18 +694,19 @@ $(document).ready(function() {
   var search = Backbone.history.location.search;
   if (search.length && search.indexOf('game') != -1) {
     var gameId = search.replace('?', '').replace('game=', '');
+    d3.select('#game_intro').html(window.gameIntroBlurbs[gameId]);
   } else {
     var gameId = $('#game-select option:first-child').val();
   }
   $('#game-select').val(gameId);
-  
-  d3.select('#game_intro').html(window.gameIntroBlurbs[gameId]);
-
+  console.log(window.ROOT_URL);
   var JSON = `//${window.ROOT_URL}/data/winprobability__${gameId}.json`;
-  // console.log(JSON);
-      // *******
+  
+
+    // *******
     // UPDATE THE TOP PLAYS SECTION
     // *******
+
     d3.json(`//${window.ROOT_URL}/data/top_plays/top_plays_${gameId}.json`, (error, data) => {
       if (error) return console.warn(error);
       window.topPlaysData = data;
@@ -717,7 +718,7 @@ $(document).ready(function() {
     }, 10000);
   }
   $('#game-select').change(function() {
-    var lastPos = window.location.href.lastIndexOf('/');
-    window.location.href = window.location.href.substr(0, lastPos) + '/?game=' + $('#game-select').val();
+    var lastPos = window.location.href.split('?')[0];
+    window.location.href = `${lastPos}?game=${$('#game-select').val()}`;
   });
 });
