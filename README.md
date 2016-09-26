@@ -51,7 +51,7 @@ The data is provided by [SportsDirect Inc. (SDI)](https://sdixmlfeeds.sportsdire
 BUILDING THE DATA
 -----------------
 
-`npm run build` will not only trigger all the grunt stuff we're used to in tarbell projects, but also a node script `buildStats.js`. That script contains an array of all the SDI game IDs for the Bears. It goes through each one in turn. If it **does not** find game data, then it skips. If it **does** find game data, it calls the win probability generator, `get_game_stats.py`. It then calls the `generateTopPlays.js` which outputs a seperate file of just the most impactful plays (currently a total of ten). These files are used by the page's javascript to make the chart.
+`npm run build` will not only trigger all the grunt stuff we're used to in tarbell projects, but also a node script `buildStats.js`. You need to be in the bears virtualenv you created above for this to work. That script contains an array of all the SDI game IDs for the Bears. It goes through each one in turn. If it **does not** find game data, then it skips. If it **does** find game data, it calls the win probability generator, `get_game_stats.py`. It then calls the `generateTopPlays.js` which outputs a seperate file of just the most impactful plays (currently a total of ten). These files are used by the page's javascript to make the chart.
 
 Again, a simple `npm run build` should take care of everything, but please be patient. The game stats thing might take a while to run, especially later in the season.
 
@@ -59,6 +59,13 @@ UPDATING THE SPREADSHEET
 ------------------------
 
 The app pretty much runs automatically with Javascript, but there is a dropdown generated with Jinja to allow users to click back through other games. This is done by changing the url variable on which the JS depends. When a game is complete, change that game's publish value to "1" ... otherwise it won't show up in the menu. 
+
+Also, you need to add 2-3 sentences about the game to the same games tab.
+
+PREVIEWING LOCALLY
+------------------
+
+THere is some conflict between the tarbell in the virtualenv and the one we use normally. In the tab where you will run `tarbell serve`, do so as you would any other project (outside the virtual env).
 
 PUBLISHING
 ----------
