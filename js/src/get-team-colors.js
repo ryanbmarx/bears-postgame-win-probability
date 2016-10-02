@@ -18,7 +18,7 @@ function getTeamColors(team){
     'New York Giants': { opponent_color: "#003155", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
     Jacksonville: { opponent_color: "#00839C", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
     'New York Jets': { opponent_color: "#2A433A", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "white"},
-    Detroit: { opponent_color: "#006EA1", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
+    Detroit: { opponent_color: "#006EA1", opponent_text_color: "white", bears_color: "#031E2F", bears_text_color: "white"},
     'Green Bay': { opponent_color: "#FFCC00", opponent_text_color: "white", bears_color: "#031E2F", bears_text_color: "black"},
     Carolina: { opponent_color: "#0088CE", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
     'New England': { opponent_color: "#00295B", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "white"},
