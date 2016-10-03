@@ -5,11 +5,12 @@
   "main": "js/src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "grunt && node buildStats.js",
+    "build": "grunt",
+    "build:stats", "node buildStats.js",
     "watch": "grunt watch",
     "preview": "python preview.py",
-    "build:videoframes":"phantomjs buildVideoFrames.js",
-    "build:videofromframes": "ffmpeg  -pattern_type glob -i 'frames/frame_*.png' -c:v libx264 -pix_fmt yuv420p test_movie.mp4",
+    "build:videoframes":"phantomjs video/buildVideoFrames.js",
+    "build:videofromframes": "ffmpeg  -pattern_type glob -i 'video/frames/frame_*.png' -c:v libx264 -pix_fmt yuv420p video/test_movie.mp4",
     "build:video":"npm run build:videoframes && npm run build:videofromframes"
   },
   "repository": {
