@@ -32,13 +32,13 @@ function makePlaysList(plays, homeAwayTeam){
 
 	console.log('>>> Making top plays lists'.green)
 	var currentProb,
-	nextProb;
+		nextProb;
 
 
 	for (var i=0; i < plays.length; i++){
 
 			currentProb = plays[i]["prob"][homeAwayTeam]
-			nextProb = i + 1 < plays.length ? plays[(i+1)]["prob"][homeAwayTeam] : 0;
+			nextProb = i + 1 < plays.length ? plays[(i+1)]["prob"][homeAwayTeam] : plays[i]["prob"][homeAwayTeam];
 			if(i == 0){
 				// We want to skip the kickoff. 
 				plays[i]["probDiffAbs"] = 0;
@@ -51,6 +51,8 @@ function makePlaysList(plays, homeAwayTeam){
 
 	// take the array of times/winProbJumps and sort it by most impactful
 	// plays (absolute value of win prob difference), not time.
+
+	console.log(plays)
 	sortedPlays = _collection.orderBy(plays, 'probDiffAbs', 'desc');
 
 	// Filter the list down to just the top 10 plays by abs value
