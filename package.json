@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "grunt",
-    "build:stats", "node buildStats.js",
+    "build:stats": "node buildStats.js",
     "watch": "grunt watch",
     "preview": "python preview.py",
     "build:videoframes":"phantomjs video/buildVideoFrames.js",
