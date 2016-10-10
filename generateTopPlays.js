@@ -47,6 +47,10 @@ function makePlaysList(plays, homeAwayTeam){
 			}
 			plays[i]['resultingChangeInWinProb'] = (nextProb-currentProb);
 			plays[i]["playIndex"] = i;
+			// IF there is a no-play penalty, there is no description. Should pick up the penalty description.
+			if (plays[i]['description'] == 'null' || plays[i]['description'] == null){
+				plays[i]['description'] = `Penalty: ${plays[i]['penalties'][0]['type']}`;
+			}
 	}
 
 	// take the array of times/winProbJumps and sort it by most impactful
