@@ -30,7 +30,7 @@ function getTeamColors(team){
     Seattle: { opponent_color: "#030F1F", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
     Pittsburgh: { opponent_color: "#000000", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
     Houston: { opponent_color: "#B31B34", opponent_text_color: "white", bears_color: "#DD4814", bears_text_color: "black"},
-    Tennessee: { opponent_color: "#002C4B", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
+    Tennessee: { opponent_color: "#648FCC", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
     Minnesota: { opponent_color: "#F0BF00", opponent_text_color: "white", bears_color: "#031E2F", bears_text_color: "white"}
   };
 
