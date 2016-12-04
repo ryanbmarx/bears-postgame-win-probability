@@ -1,6 +1,6 @@
 function getTeamColors(team){
   var colorLookup = {
-    'San Francisco': { opponent_color: "#940029", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
+    'San Francisco': { opponent_color: "#940029", opponent_text_color: "white", bears_color: "#031E2F", bears_text_color: "white"},
     Chicago: { opponent_color: "#12182d", opponent_text_color: "white", bears_color: "#DD4814", bears_text_color: "black"},
     Cincinnati: { opponent_color: "#FB4F14", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
     Buffalo: { opponent_color: "#C60C30", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
