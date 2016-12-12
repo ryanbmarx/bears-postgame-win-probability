@@ -4,6 +4,8 @@ var Backbone = require('backbone');
 var _ = require('underscore');
 var getTeamColors = require('./get-team-colors');
 
+const showToolTip = false;
+
 function insertTopPlaysLegend(homeTeamPlace,homeTeam, visitingTeamPlace,visitingTeam){
   return`
     <dl>
@@ -32,7 +34,6 @@ function insertTopPlaysLegend(homeTeamPlace,homeTeam, visitingTeamPlace,visiting
 
 function getDownAndDistance(playData, visitingTeam, homeTeam){
   var down = formatDown(playData['down']);
-
   if (down != undefined){
     var yardline_team = playData['yardline_align'] == "away" ? visitingTeam : homeTeam;
     // return `${down} and ${playData['distance']} on ${yardline_team} ${playData['yardline']}`;
@@ -83,6 +84,7 @@ function buildTopPlays(meta){
       }
 
       var possessor = value['possessor'];
+      console.log('possessor is ', possessor);
       chart.append('circle')
         .attr('class', 'topPlayMarker__circle')
         .attr('cx', window.xScale(value['playIndex'] + xPlot))
@@ -280,50 +282,52 @@ function drawChart(data, container, score, meta, gamechangers, dimensions) {
       .classed('topPlaysContainer', true);
   }
   buildTopPlays(meta)
-//   chart.selectAll('circle.play')
-//     .data(data).enter()
-//     .append('circle')
-//     .attr('class', 'play')
-//     .attr('cx', function(d) { return xScale(d.play); })
-//     .attr('cy', function(d) {
-//       if (WIN_PROB_CHANGES[d.play].abs_diff == null) {
-//         var value = WIN_PROB_CHANGES[d.play].before;
-//       } else {
-//         var value = WIN_PROB_CHANGES[d.play].after;
-//       }
-//       return yScale(value);
-//     })
-//     .attr('r', 6.3)
-//     .on('mouseover', function(d) {
-//       var tooltipTpl = _.template($('#tpl-tooltip').html());
-//       var context = getTooltipContext(d, meta);
+  if(showToolTip){
+    chart.selectAll('circle.play')
+      .data(data).enter()
+      .append('circle')
+      .attr('class', 'play')
+      .attr('cx', function(d) { return xScale(d.play); })
+      .attr('cy', function(d) {
+        if (WIN_PROB_CHANGES[d.play].abs_diff == null) {
+          var value = WIN_PROB_CHANGES[d.play].before;
+        } else {
+          var value = WIN_PROB_CHANGES[d.play].after;
+        }
+        return yScale(value);
+      })
+      .attr('r', 6.3)
+      .on('mouseover', function(d) {
+        var tooltipTpl = _.template($('#tpl-tooltip').html());
+        var context = getTooltipContext(d, meta);
 
-//       tooltip.html(tooltipTpl(context));
+        tooltip.html(tooltipTpl(context));
 
-//       var el = d3.select(this);
-//       el.classed('active', true);
+        var el = d3.select(this);
+        el.classed('active', true);
 
-//       return tooltip.style('visibility', 'visible');
-//     })
-//     .on('mousemove', function(d) {
-//       var tipWidth = parseInt(tooltip.style('width'), 10);
+        return tooltip.style('visibility', 'visible');
+      })
+      .on('mousemove', function(d) {
+        var tipWidth = parseInt(tooltip.style('width'), 10);
 
-//       if (d3.event.pageX > ((dimensions.chartWidth - tipWidth))) {
-//         return tooltip
-//           .style('top', (d3.event.pageY - 40) + 'px')
-//           .style('left',(d3.event.pageX - (tipWidth + 32)) + 'px');
-//       } else {
-//         return tooltip
-//           .style('top', (d3.event.pageY - 40) + 'px')
-//           .style('left',(d3.event.pageX + 10) + 'px');
-//       }
-//     })
-//     .on('mouseout', function(d) {
-//       var el = d3.select(this);
-//       el.classed('active', false);
+        if (d3.event.pageX > ((dimensions.chartWidth - tipWidth))) {
+          return tooltip
+            .style('top', (d3.event.pageY - 40) + 'px')
+            .style('left',(d3.event.pageX - (tipWidth + 32)) + 'px');
+        } else {
+          return tooltip
+            .style('top', (d3.event.pageY - 40) + 'px')
+            .style('left',(d3.event.pageX + 10) + 'px');
+        }
+      })
+      .on('mouseout', function(d) {
+        var el = d3.select(this);
+        el.classed('active', false);
 
-//       return tooltip.style('visibility', 'hidden');
-//     });
+        return tooltip.style('visibility', 'hidden');
+      });
+  }
 }
 
 function getTooltipContext(d, meta) {
