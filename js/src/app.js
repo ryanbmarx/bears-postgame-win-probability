@@ -102,6 +102,10 @@ function buildTopPlays(meta){
         .style('fill', getTeamColors(possessor)['textColor'])
         .style('font','12px/1em arial, sans-serif');
 
+      // Most plays will use the description, but some will 
+      // have penalties, so this will detect those cases.
+      var playDescription = value['reversed'] == true ? `${value['penalties'][0].yards}-yard penalty (${value['penalties'][0].type.toLowerCase()}) on ${value.penalties[0].team}` : value['description'];
+
       if (document.getElementById('biggest-plays').innerHTML == ""){
         parsedHTML += `
           <div class='top-play'>
@@ -114,7 +118,7 @@ function buildTopPlays(meta){
                 <p class='top-play__time'>${getGameClock(value)} remaining in ${formatDown(value['quarter'])}</p>
                 ${getDownAndDistance(value, visitingTeam, homeTeam)}
               </div>
-              <p class='top-play__description'>${value['description']}</p>
+              <p class='top-play__description'>${playDescription}</p>
               <!--<dl class='top-play__score'>
                 <dt>Resulting score:</dt>
                 <dd>${visitingTeam} ${value['score']['home']}, ${homeTeam} ${value['score']['away']}</dd>
