@@ -685,15 +685,20 @@ function updateData(JSON, gameId) {
       }));
     }
 
+    let homeScore = 0, awayScore = 0
     _.each(_.keys(score), function(quarter) {
       $('#away-score-' + quarter).html(score[quarter].away);
       $('#home-score-' + quarter).html(score[quarter].home);
       if (quarter == 5) {
         $('.ot-score').show();
       }
+      homeScore += score[quarter].home;
+      awayScore += score[quarter].away;
     });
-    $('#away-score-final').html(results.plays[results.plays.length - length_offset].score.away);
-    $('#home-score-final').html(results.plays[results.plays.length - length_offset].score.home);
+    // $('#away-score-final').html(results.plays[results.plays.length - length_offset].score.away);
+    // $('#home-score-final').html(results.plays[results.plays.length - length_offset].score.home);
+    $('#away-score-final').html(awayScore);
+    $('#home-score-final').html(homeScore);
     $('#play-description').html(results.plays[results.plays.length - length_offset].description);
 
     _.each(meta, function(meta_el) {
