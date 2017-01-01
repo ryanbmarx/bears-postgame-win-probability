@@ -25,7 +25,7 @@ function getTeamColors(team){
     Oakland: { opponent_color: "#000000", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
     'St. Louis': { opponent_color: "#00295B", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
     Baltimore: { opponent_color: "#2B025B", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "white"},
-    Washington: { opponent_color: "#8C001A", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
+    Washington: { opponent_color: "#8C001A", opponent_text_color: "white", bears_color: "#031E2F", bears_text_color: "white"},
     'New Orleans': { opponent_color: "#C6A876", opponent_text_color: "black", bears_color: "#031E2F", bears_text_color: "white"},
     Seattle: { opponent_color: "#030F1F", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
     Pittsburgh: { opponent_color: "#000000", opponent_text_color: "black", bears_color: "#DD4814", bears_text_color: "black"},
